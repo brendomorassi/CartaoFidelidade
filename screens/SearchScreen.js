@@ -1,21 +1,15 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet} from 'react-native';
-import { createStackNavigator, createSwitchNavigator, createAppContainer } from 'react-navigation';
 
 
-class HomeScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Welcome to the app!',
-  };
-
+class SearchScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-       
-        <Text>Home !</Text>
+        <Text>SearchScreen</Text>
       </View>
     );
-  }
+  } 
 
 }
 
@@ -27,4 +21,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+
+export default SearchScreen;
