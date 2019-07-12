@@ -8,6 +8,10 @@ import {
   View,
 } from 'react-native';
 import { createStackNavigator, createSwitchNavigator, createAppContainer } from 'react-navigation';
+import * as firebase from 'firebase';
+
+import firebaseConfig from '../../firebaseConfig';
+firebase.initializeApp(firebaseConfig);
 
 
 class AuthLoadingScreen extends React.Component {
@@ -18,11 +22,26 @@ class AuthLoadingScreen extends React.Component {
   
     // Fetch the token from storage then navigate to our appropriate place
     _bootstrapAsync = async () => {
-      const userToken = await AsyncStorage.getItem('userToken');
-  
-      // This will switch to the App screen or Auth screen and this loading
-      // screen will be unmounted and thrown away.
-      this.props.navigation.navigate(userToken ? 'App' : 'Auth');
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user != null) {
+          this.props.navigation.navigate('App');
+
+       
+          AsyncStorage.setItem('user', JSON.stringify(user));
+        
+          
+          // firebase.database().ref('users/' + user.uid).set({
+          //   name: user.displayName,
+          //   email: user.email,
+          //   photoURL: user.photoURL,
+          // });
+
+          console.log("Logado");
+        }else{
+          this.props.navigation.navigate('Auth');
+          console.log("Deslogado");
+        }
+      });
     };
   
     // Render any loading content that you like here
